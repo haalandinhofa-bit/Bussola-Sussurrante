@@ -1,0 +1,18 @@
+{
+  "item.whispercompass.whisper_compass": "Whispering Compass",
+  "tooltip.whispercompass.mode": "Target: %s",
+  "tooltip.whispercompass.use": "Use: scan for ore within %s blocks",
+  "tooltip.whispercompass.cycle": "Sneak + Use: change target",
+  "message.whispercompass.mode": "Target: %s",
+  "message.whispercompass.found": "%1$s %2$s %3$s blocks%4$s",
+  "message.whispercompass.none": "No %1$s within %2$s blocks...",
+  "target.whispercompass.coal": "Coal",
+  "target.whispercompass.copper": "Copper",
+  "target.whispercompass.iron": "Iron",
+  "target.whispercompass.gold": "Gold",
+  "target.whispercompass.redstone": "Redstone",
+  "target.whispercompass.lapis": "Lapis Lazuli",
+  "target.whispercompass.diamond": "Diamond",
+  "target.whispercompass.emerald": "Emerald",
+  "target.whispercompass.ancient_debris": "Ancient Debris"
+}

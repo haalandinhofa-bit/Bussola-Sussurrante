@@ -1,0 +1,85 @@
+name: Build Whispering Compass
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle 8.12
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.12"
+
+      - name: Compile mod
+        id: compile
+        continue-on-error: true
+        run: gradle clean build --no-daemon > build.log 2>&1
+
+      # Se a compilação falhar, lista as assinaturas reais da API do Minecraft para facilitar o conserto.
+      - name: Inspect Minecraft API (only on failure)
+        if: steps.compile.outcome == 'failure'
+        run: |
+          mkdir -p out
+          for jar in $(find "$HOME" "$GITHUB_WORKSPACE" -path '*minecraftMaven*' -name '*.jar' ! -name '*sources*' 2>/dev/null); do
+            if unzip -l "$jar" | grep -q 'net/minecraft/item/Item.class'; then
+              javap -p -cp "$jar" 'net.minecraft.item.Item' 'net.minecraft.item.Item$Settings' \
+                net.minecraft.entity.player.ItemCooldownManager net.minecraft.item.ItemStack \
+                net.minecraft.entity.LivingEntity net.minecraft.world.HeightLimitView net.minecraft.world.World \
+                'net.minecraft.component.ComponentType$Builder' net.minecraft.network.codec.PacketCodecs \
+                net.minecraft.sound.SoundEvents > out/inspect.txt 2>&1 || true
+              break
+            fi
+          done
+
+      - name: Publish build log (branch ci-out)
+        if: always()
+        run: |
+          mkdir -p out
+          cp build.log out/ || true
+          cp build/libs/whisper-compass-[0-9]*.jar out/ 2>/dev/null || true
+          rm -f out/*-sources.jar
+          cd out
+          git init -q
+          git checkout -q -b ci-out
+          git config user.name "ci"; git config user.email "ci@example.com"
+          git add -A
+          git commit -qm "ci output for $GITHUB_SHA"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" ci-out
+
+      - name: Fail if the build failed
+        if: steps.compile.outcome == 'failure'
+        run: |
+          tail -n 60 build.log
+          exit 1
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: whisper-compass-fabric-1.21.4
+          path: build/libs/whisper-compass-1.0.0.jar
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: Whispering Compass 1.0.0
+          files: build/libs/whisper-compass-1.0.0.jar
+          make_latest: true

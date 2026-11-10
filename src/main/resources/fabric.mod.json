@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "whispercompass",
+  "version": "${version}",
+  "name": "Whispering Compass",
+  "description": "Uma bússola de ametista reutilizável que sussurra onde estão os minérios por perto. Alcance curto, recarga e durabilidade proporcional à raridade: ajuda sem quebrar o vanilla.",
+  "authors": ["GanhamosGames"],
+  "contact": {
+    "sources": "https://github.com/haalandinhofa-bit/Bussola-Sussurrante"
+  },
+  "license": "MIT",
+  "icon": "assets/whispercompass/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.ganhamosgames.whispercompass.WhisperCompassMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": ">=0.119.2"
+  }
+}

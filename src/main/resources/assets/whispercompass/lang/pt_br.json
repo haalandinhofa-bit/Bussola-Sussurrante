@@ -1,0 +1,18 @@
+{
+  "item.whispercompass.whisper_compass": "Bússola Sussurrante",
+  "tooltip.whispercompass.mode": "Alvo: %s",
+  "tooltip.whispercompass.use": "Usar: fareja minérios em até %s blocos",
+  "tooltip.whispercompass.cycle": "Agachado + usar: troca o alvo",
+  "message.whispercompass.mode": "Alvo: %s",
+  "message.whispercompass.found": "%1$s %2$s a %3$s blocos%4$s",
+  "message.whispercompass.none": "Nada de %1$s em até %2$s blocos...",
+  "target.whispercompass.coal": "Carvão",
+  "target.whispercompass.copper": "Cobre",
+  "target.whispercompass.iron": "Ferro",
+  "target.whispercompass.gold": "Ouro",
+  "target.whispercompass.redstone": "Redstone",
+  "target.whispercompass.lapis": "Lápis-lazúli",
+  "target.whispercompass.diamond": "Diamante",
+  "target.whispercompass.emerald": "Esmeralda",
+  "target.whispercompass.ancient_debris": "Detritos Antigos"
+}
